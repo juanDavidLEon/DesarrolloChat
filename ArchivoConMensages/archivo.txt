@@ -1,7 +1,0 @@
-Archivo con mensajes
-
-Cliente: Hola
-Cliente: mil de papa
-Cliente: mil de papa
-Empresa: que ma pues como te ha ido
-Empresa: que ma pues como te ha ido
