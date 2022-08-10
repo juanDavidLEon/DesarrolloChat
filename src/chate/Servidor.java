@@ -49,7 +49,6 @@ class MarcoSevidor extends JFrame implements Runnable{
         setVisible(true);
         
         Thread miHilo = new Thread(this);
-        
         miHilo.start();
         
     }
@@ -64,35 +63,47 @@ class MarcoSevidor extends JFrame implements Runnable{
 
             ServerSocket servidor = new ServerSocket(9999);
             
-            /*String nick,mensaje;
-            PaqueteEnvio paqueteRecibido;*/
+            
+            String nick, ip, mensaje;
+            PaqueteEnvio paqueteRecibido;
             
             while (true) {    
          
             Socket miSocket = servidor.accept();
             
-            DataInputStream flujoEntrada = new DataInputStream(miSocket.getInputStream());
+            ObjectInputStream paqueteDatos = new ObjectInputStream(miSocket.getInputStream());
+            
+            paqueteRecibido = (PaqueteEnvio) paqueteDatos.readObject();
+            
+            nick = paqueteRecibido.getNick();
+            ip= paqueteRecibido.getIp();
+            mensaje= paqueteRecibido.getMensaje();
+            
+            /*DataInputStream flujoEntrada = new DataInputStream(miSocket.getInputStream());
             
             String mensajeTexto = flujoEntrada.readUTF();
-            //String ip = flujoEntrada.readUTF();
             
-            areaTexto.append("\n" + mensajeTexto);
+            areaTexto.append("\n" + mensajeTexto);*/
             
-           // areaTexto.append("\n" + nick + ": " + mensaje);
-           Socket enviaDestino = new Socket("192.168.18.6", 9090);
+            areaTexto.append("\n" + nick + ": " + mensaje + " para " +ip);
+            
+            Socket enviaDestino = new Socket(ip, 9090);
            
-           DataOutputStream paqueteReenvio = new DataOutputStream(enviaDestino.getOutputStream());
+            ObjectOutputStream paqueteReenvio = new ObjectOutputStream(enviaDestino.getOutputStream());
+              
+           paqueteReenvio.writeObject(paqueteRecibido);
            
-           paqueteReenvio.writeUTF(mensajeTexto);
            paqueteReenvio.close();
            enviaDestino.close();
-            
-           miSocket.close();
+           miSocket.close();      
+           
            }
             
         } catch (IOException ex) {
             
             ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MarcoSevidor.class.getName()).log(Level.SEVERE, null, ex);
         } 
         
     }
