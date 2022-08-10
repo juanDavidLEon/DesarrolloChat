@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package chate;
 
 import javax.swing.*;
@@ -11,10 +7,9 @@ import java.net.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
  *
- * @author dintev
+ * @author Leon
  */
 public class Servidor {
 
@@ -63,7 +58,6 @@ class MarcoSevidor extends JFrame implements Runnable{
 
             ServerSocket servidor = new ServerSocket(9999);
             
-            
             String nick, ip, mensaje;
             PaqueteEnvio paqueteRecibido;
             
@@ -79,23 +73,17 @@ class MarcoSevidor extends JFrame implements Runnable{
             ip= paqueteRecibido.getIp();
             mensaje= paqueteRecibido.getMensaje();
             
-            /*DataInputStream flujoEntrada = new DataInputStream(miSocket.getInputStream());
-            
-            String mensajeTexto = flujoEntrada.readUTF();
-            
-            areaTexto.append("\n" + mensajeTexto);*/
-            
             areaTexto.append("\n" + nick + ": " + mensaje + " para " +ip);
             
             Socket enviaDestino = new Socket(ip, 9090);
            
             ObjectOutputStream paqueteReenvio = new ObjectOutputStream(enviaDestino.getOutputStream());
               
-           paqueteReenvio.writeObject(paqueteRecibido);
+            paqueteReenvio.writeObject(paqueteRecibido);
            
-           paqueteReenvio.close();
-           enviaDestino.close();
-           miSocket.close();      
+            paqueteReenvio.close();
+            enviaDestino.close();
+            miSocket.close();      
            
            }
             
