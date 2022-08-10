@@ -144,6 +144,7 @@ public class VistaE extends javax.swing.JFrame implements Runnable{
             datos.setNick(nickUsuario.getText());
             datos.setIp(IPUsuario.getText());
             datos.setMensaje(messageText.getText());
+            String contenido = datos.getMensaje();
             
             ObjectOutputStream paqueteDatos = new ObjectOutputStream(miSocket.getOutputStream());
             
@@ -228,7 +229,26 @@ public class VistaE extends javax.swing.JFrame implements Runnable{
                 
                 jMessageAreaE.append("\n" + paqueteRecibido.getNick() + ": " + 
                         paqueteRecibido.getMensaje());
-            }    
+                
+            String ruta = "D:\\Leon\\Documents\\chatEmpresa-main\\ArchivoConMensages\\archivo.txt";
+            String titulo = "Archivo con mensajes";
+            
+            File file = new File(ruta);
+            
+                try {
+                                
+                    if(!file.exists()){
+                    file.createNewFile();
+            }
+                    FileWriter fw = new FileWriter(file);
+                    BufferedWriter bw = new BufferedWriter(fw);
+                    bw.write(titulo + "\n" + jMessageAreaE.getText());
+                    bw.close();
+                    
+                } catch (Exception e) {
+                }
+            
+            }
             
         } catch (Exception e) {
             System.out.println(e.getMessage());
