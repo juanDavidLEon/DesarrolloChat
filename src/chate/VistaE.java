@@ -137,7 +137,7 @@ public class VistaE extends javax.swing.JFrame implements Runnable{
 
             messageText.getText();
             
-            Socket miSocket = new Socket("192.168.18.6",9999);
+            Socket miSocket = new Socket("10.164.31.59",9999);
             
             PaqueteEnvio datos = new PaqueteEnvio();
             
